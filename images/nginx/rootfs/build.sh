@@ -44,6 +44,9 @@ export NGINX_AJP_VERSION=bf6cd93f2098b59260de8d494f0f4b1f11a84627
 
 export LUAJIT_VERSION=2.1-20201027
 
+export NGINX_DATADOME_VERSION=2.37
+export NGINX_DATADOME_COMMIT=c0620987cab93b1a8cb4153c71128ae2cc6f061c
+
 export LUA_RESTY_BALANCER=0.03
 export LUA_RESTY_CACHE=0.10
 export LUA_RESTY_CORE=0.1.20rc3
@@ -166,6 +169,9 @@ get_src 2a69815e4ae01aa8b170941a8e1a10b6f6a9aab699dee485d58f021dd933829a \
 
 get_src f74a0821b079ea1fd63dd8659064356fc3f421ff4b35c17877140d2b2841cc3b \
         "https://github.com/openresty/luajit2/archive/v$LUAJIT_VERSION.tar.gz"
+
+get_src e863e367c851d5295fdb146fd8783a269a73d1b2da856a877f82cc65d6c59e6c \
+        "https://package.datadome.co/linux/DataDome-Nginx-$NGINX_DATADOME_VERSION.tgz"
 
 get_src 3e6fe45f467d653870985cc52a1c2cf81a8a2c7a7bcf7ffcfedfd305a47a1eca \
         "https://github.com/DataDog/dd-opentracing-cpp/archive/v$DATADOG_CPP_VERSION.tar.gz"
@@ -499,6 +505,7 @@ WITH_MODULES=" \
   --add-dynamic-module=$BUILD_PATH/nginx-opentracing-$NGINX_OPENTRACING_VERSION/opentracing \
   --add-dynamic-module=$BUILD_PATH/ModSecurity-nginx-$MODSECURITY_VERSION \
   --add-dynamic-module=$BUILD_PATH/ngx_http_geoip2_module-${GEOIP2_VERSION} \
+  --add-dynamic-module=$BUILD_PATH/DataDome-NginxDome-${NGINX_DATADOME_COMMIT} \
   --add-dynamic-module=$BUILD_PATH/ngx_brotli"
 
 ./configure \
