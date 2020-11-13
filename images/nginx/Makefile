@@ -22,15 +22,15 @@ INIT_BUILDX=$(DIR)/../../hack/init-buildx.sh
 
 # 0.0.0 shouldn't clobber any released builds
 TAG ?= 0.0
-REGISTRY ?= gcr.io/k8s-staging-ingress-nginx
+REGISTRY ?= us.gcr.io/replay-gaming
 
-IMAGE = $(REGISTRY)/nginx
+IMAGE = $(REGISTRY)/ingress-nginx/nginx-datadome
 
 # required to enable buildx
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
 # build with buildx
-PLATFORMS?=linux/amd64,linux/arm,linux/arm64,linux/s390x
+PLATFORMS?=linux/amd64
 OUTPUT=
 PROGRESS=plain
 build: ensure-buildx

@@ -49,9 +49,10 @@ ifeq ($(ARCH),)
     $(error mandatory variable ARCH is empty, either set it when calling the command or make sure 'go env GOARCH' works)
 endif
 
-REGISTRY ?= gcr.io/k8s-staging-ingress-nginx
+REGISTRY ?= us.gcr.io/replay-gaming
+IMAGE = $(REGISTRY)/ingress-nginx/controller
 
-BASE_IMAGE ?= k8s.gcr.io/ingress-nginx/nginx:v20201028-g2c1279cd8@sha256:bd22e4f9bbf88aee527a86692be4442d03fa1ef2df94356312c9db8bec1f7ea3
+BASE_IMAGE ?= $(REGISTRY)/ingress-nginx/nginx-datadome:1.0.0
 
 GOARCH=$(ARCH)
 
@@ -68,12 +69,12 @@ image: clean-image ## Build image for a particular arch.
 		--build-arg TARGETARCH="$(ARCH)" \
 		--build-arg COMMIT_SHA="$(COMMIT_SHA)" \
 		--build-arg BUILD_ID="$(BUILD_ID)" \
-		-t $(REGISTRY)/controller:$(TAG) rootfs
+		-t $(IMAGE):$(TAG) rootfs
 
 .PHONY: clean-image
 clean-image: ## Removes local image
-	echo "removing old image $(REGISTRY)/controller:$(TAG)"
-	@docker rmi -f $(REGISTRY)/controller:$(TAG) || true
+	echo "removing old image $(IMAGE):$(TAG)"
+	@docker rmi -f $(IMAGE):$(TAG) || true
 
 .PHONY: build
 build:  ## Build ingress controller, debug tool and pre-stop hook.
@@ -218,4 +219,4 @@ release: ensure-buildx clean
 		--build-arg VERSION="$(TAG)" \
 		--build-arg COMMIT_SHA="$(COMMIT_SHA)" \
 		--build-arg BUILD_ID="$(BUILD_ID)" \
-		-t $(REGISTRY)/controller:$(TAG) rootfs
+		-t $(IMAGE):$(TAG) rootfs

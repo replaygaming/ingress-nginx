@@ -8,8 +8,8 @@ steps:
     entrypoint: bash
     env:
       - DOCKER_CLI_EXPERIMENTAL=enabled
-      - REGISTRY=gcr.io/k8s-staging-ingress-nginx
-      - REPO_INFO=https://github.com/kubernetes/ingress-nginx
+      - REGISTRY=us.gcr.io/replay-gaming
+      - REPO_INFO=https://github.com/replaygaming/ingress-nginx
       - COMMIT_SHA=$_PULL_BASE_SHA
       - BUILD_ID=$BUILD_ID
       - HOME=/root
@@ -20,6 +20,5 @@ steps:
       gcloud auth configure-docker \
       && make release
 substitutions:
-  _GIT_TAG: "12345"
   _PULL_BASE_REF: "master"
   _PULL_BASE_SHA: '12345'
